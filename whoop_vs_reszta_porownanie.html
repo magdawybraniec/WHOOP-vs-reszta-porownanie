@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHOOP vs konkurencja - porównanie wearables 2026</title>
+
+<!-- Fonts: serif headings to match xKinesi brand -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a1226;
+    color: #e8eef5;
+    line-height: 1.55;
+    padding: 24px 16px;
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+  
+  header {
+    background: linear-gradient(135deg, #131c38 0%, #0a1226 100%);
+    border: 1px solid #1f2a4d;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  h1, h2 {
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.01em;
+  }
+  h1 {
+    font-size: clamp(22px, 3.5vw, 32px);
+    font-weight: 600;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle { color: #94a3b8; font-size: 15px; margin-bottom: 16px; }
+  .meta { color: #64748b; font-size: 13px; }
+  
+  h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 32px 0 12px;
+    padding-left: 12px;
+    border-left: 4px solid #818cf8;
+    color: #fff;
+  }
+  h3 {
+    font-size: 16px;
+    margin: 20px 0 10px;
+    color: #e2e8f0;
+    font-weight: 600;
+  }
+  
+  p { margin-bottom: 12px; color: #cbd5e1; font-size: 14px; }
+  
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: #131c38;
+    border: 1px solid #1f2a4d;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .ok { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+  .mid { background: rgba(234, 179, 8, 0.15); color: #eab308; }
+  .bad { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+  .na { background: rgba(115, 115, 115, 0.15); color: #737373; }
+  .unknown { background: rgba(148, 163, 184, 0.10); color: #94a3b8; }
+  
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid #1f2a4d;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    background: #0a1226;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 980px;
+  }
+  th, td {
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 1px solid #1f2a4d;
+    border-right: 1px solid #1f2a4d;
+  }
+  th {
+    background: #131c38;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    position: sticky;
+    top: 0;
+    border-bottom: 2px solid #818cf8;
+  }
+  th:first-child, td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: #e2e8f0;
+    background: #0e1530;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    min-width: 220px;
+    border-right: 2px solid #1f2a4d;
+  }
+  th:first-child { z-index: 10; }
+  
+  .whoop-col { background: rgba(251, 191, 36, 0.08); }
+  th.whoop-col { background: rgba(251, 191, 36, 0.18); }
+  
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  tr:hover td.whoop-col { background: rgba(251, 191, 36, 0.12); }
+  
+  /* Wariant tabeli z opisowym tekstem w komórkach (np. sekcja 6) */
+  .table-descriptive table { min-width: 720px; }
+  .table-descriptive th,
+  .table-descriptive td {
+    text-align: left;
+    vertical-align: top;
+  }
+  .table-descriptive .cell {
+    vertical-align: top;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+  
+  .device-name { font-weight: 600; font-size: 11px; }
+  .device-tier { display: block; color: #94a3b8; font-weight: 400; font-size: 10px; margin-top: 2px; }
+  
+  .cell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  
+  .note {
+    background: #131c38;
+    border-left: 3px solid #818cf8;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+  .note strong { color: #a5a8f8; }
+  
+  .verdict-box {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(251, 191, 36, 0.03));
+    border: 2px solid rgba(251, 191, 36, 0.5);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .verdict-box h3 { color: #fbbf24; margin-top: 0; }
+  
+  .reason-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 16px 0 24px;
+  }
+  .reason {
+    background: #131c38;
+    border: 1px solid #1f2a4d;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 13px;
+  }
+  .reason-num {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #818cf8;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .reason-title { color: #fff; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+  .reason p { color: #94a3b8; font-size: 12.5px; margin: 0; }
+  
+  .weakness-list {
+    background: #131c38;
+    border: 1px solid #1f2a4d;
+    border-radius: 10px;
+    padding: 18px;
+    font-size: 13px;
+  }
+  .weakness-list ul { list-style: none; }
+  .weakness-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #1f2a4d;
+    color: #cbd5e1;
+  }
+  .weakness-list li:last-child { border-bottom: none; }
+  .weakness-list strong { color: #fff; }
+  
+  footer {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #1f2a4d;
+    color: #64748b;
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  @media (max-width: 600px) {
+    body { padding: 12px 8px; }
+    header { padding: 20px; }
+    h1 { font-size: 22px; }
+    .cell { width: 26px; height: 26px; font-size: 14px; }
+    th, td { padding: 8px 5px; font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>WHOOP vs konkurencja - wearables 2026</h1>
+  <p class="subtitle">Porównanie 11 urządzeń pod kątem dokładności, longevity i jakości życia. Oparte na badaniach naukowych (PSG, EKG, kalorymetria), recenzjach DC Rainmaker i Quantified Scientist.</p>
+  <p class="meta">Maj 2026 · Ceny w PLN · ✓ świetnie · ~ średnio · ✗ słabo · - brak funkcji · ? brak danych</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><span class="badge ok">✓</span> Świetnie</div>
+  <div class="legend-item"><span class="badge mid">~</span> Wystarczająco dobrze</div>
+  <div class="legend-item"><span class="badge bad">✗</span> Słabo</div>
+  <div class="legend-item"><span class="badge unknown">?</span> Deficyt danych i walidacji</div>
+  <div class="legend-item"><span class="badge na">-</span> Brak funkcji</div>
+</div>
+
+<div class="note">
+  <strong>Uwaga terminologiczna:</strong> "WHOOP Peak" to plan subskrypcji (€264/rok), nie urządzenie. Sprzęt to <strong>WHOOP MG</strong> (top, EKG + ciśnienie) lub <strong>WHOOP 5.0</strong> (podstawa). W tabelach: <strong>WHOOP MG</strong> = top z planem Life (€399/rok), <strong>WHOOP 5.0</strong> = sprzęt 5.0 z planem Peak (€264/rok, pełne funkcje longevity, bez EKG).
+</div>
+
+<h2>1. Specyfikacja podstawowa</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th>Parametr</th>
+  <th class="whoop-col"><span class="device-name">WHOOP MG</span><span class="device-tier">Life · 2025</span></th>
+  <th class="whoop-col"><span class="device-name">WHOOP 5.0</span><span class="device-tier">Peak/One · 2025</span></th>
+  <th><span class="device-name">Garmin Fenix 8</span><span class="device-tier">47mm AMOLED · 2024</span></th>
+  <th><span class="device-name">Garmin FR 265</span><span class="device-tier">2023</span></th>
+  <th><span class="device-name">Apple Ultra 3</span><span class="device-tier">2025</span></th>
+  <th><span class="device-name">Apple SE 3</span><span class="device-tier">2025</span></th>
+  <th><span class="device-name">Galaxy W8</span><span class="device-tier">44mm · 2025</span></th>
+  <th><span class="device-name">Polar V3</span><span class="device-tier">2023</span></th>
+  <th><span class="device-name">Oura Ring 4</span><span class="device-tier">2024</span></th>
+  <th><span class="device-name">Coros Vertix 2S</span><span class="device-tier">2024</span></th>
+  <th><span class="device-name">Xiaomi S4</span><span class="device-tier">2024</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Forma</td>
+  <td class="whoop-col">opaska</td><td class="whoop-col">opaska</td>
+  <td>zegarek</td><td>zegarek</td><td>zegarek</td><td>zegarek</td><td>zegarek</td><td>zegarek</td>
+  <td>pierścień</td><td>zegarek</td><td>zegarek</td>
+</tr>
+<tr>
+  <td>Wyświetlacz</td>
+  <td class="whoop-col">brak</td><td class="whoop-col">brak</td>
+  <td>AMOLED</td><td>AMOLED</td><td>OLED 3000 nit</td><td>OLED+AOD</td><td>S-AMOLED</td><td>AMOLED</td>
+  <td>brak</td><td>MIP zawsze włączony</td><td>AMOLED</td>
+</tr>
+<tr>
+  <td>Bateria (typowo)</td>
+  <td class="whoop-col">14+ dni</td><td class="whoop-col">14+ dni</td>
+  <td>16 dni</td><td>13 dni</td><td>42h</td><td>18h</td><td>30-40h</td><td>12 dni</td>
+  <td>8 dni</td><td>36 dni</td><td>15 dni</td>
+</tr>
+<tr>
+  <td>Waga</td>
+  <td class="whoop-col">26 g</td><td class="whoop-col">26 g</td>
+  <td>80 g</td><td>47 g</td><td>61 g</td><td>26 g</td><td>30 g</td><td>57 g</td>
+  <td>3-5 g</td><td>87 g</td><td>44 g</td>
+</tr>
+<tr>
+  <td>GPS</td>
+  <td class="whoop-col"><span class="cell na">-</span></td><td class="whoop-col"><span class="cell na">-</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell na">-</span></td><td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Wodoszczelność</td>
+  <td class="whoop-col">10 m</td><td class="whoop-col">10 m</td>
+  <td>10 ATM + 40 m</td><td>5 ATM</td><td>WR100 + 40 m</td><td>WR50</td><td>5 ATM</td><td>WR50</td>
+  <td>10 ATM</td><td>10 ATM</td><td>5 ATM</td>
+</tr>
+<tr>
+  <td>Cena urządzenia (PLN)</td>
+  <td class="whoop-col">w sub.</td><td class="whoop-col">w sub.</td>
+  <td>3 134</td><td>~1 600</td><td>3 799</td><td>~1 229</td><td>1 299</td><td>1 799</td>
+  <td>~1 699</td><td>~2 899</td><td>~749</td>
+</tr>
+<tr>
+  <td>Subskrypcja roczna</td>
+  <td class="whoop-col"><strong>1 715 zł</strong></td><td class="whoop-col"><strong>1 135 zł</strong></td>
+  <td>opcja Connect+ 280</td><td>0</td><td>0 (Fitness+ opc.)</td><td>0</td><td>0</td><td>0</td>
+  <td>~280 zł</td><td>0</td><td>0</td>
+</tr>
+<tr>
+  <td><strong>Łączny koszt po 3 latach (PLN)</strong></td>
+  <td class="whoop-col"><strong>~5 145</strong></td><td class="whoop-col"><strong>~3 405</strong></td>
+  <td><strong>~3 200</strong></td><td><strong>~1 600</strong></td><td><strong>~3 800</strong></td><td><strong>~1 230</strong></td>
+  <td><strong>~1 300</strong></td><td><strong>~1 800</strong></td><td><strong>~2 540</strong></td><td><strong>~2 900</strong></td><td><strong>~750</strong></td>
+</tr>
+<tr>
+  <td>Darmowy nowy sprzęt w sub.</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell na">-</span></td><td><span class="cell na">-</span></td><td><span class="cell na">-</span></td><td><span class="cell na">-</span></td>
+  <td><span class="cell na">-</span></td><td><span class="cell na">-</span></td>
+  <td><span class="cell na">-</span></td><td><span class="cell na">-</span></td><td><span class="cell na">-</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>2. Dokładność pomiarów (badania naukowe)</h2>
+<p>Oceny oparte o publikacje peer-reviewed (Schyvens 2025, Dial 2025, Miller 2020, Robbins 2024 i in.) oraz testy DC Rainmaker i Quantified Scientist (Rob ter Horst). Dla niektórych najnowszych modeli (2024–2025) brakuje bezpośredniej walidacji peer-review - wtedy ocenę ekstrapolowano z poprzednika lub bliźniaczego modelu tej samej marki, jeśli czujnik optyczny i algorytm były technicznie zbliżone (np. Apple SE 3 z Apple Watch Series 9, Garmin Fenix 8 z Fenix 6/7, Polar V3 z Vantage V/Grit X Pro, Oura 4 z Oura Gen 3). Symbol „?" stosujemy gdy brak zarówno peer-review, jak i wiarygodnych niezależnych testów dla danej metryki - dotyczy to głównie Coros Vertix 2S, w mniejszym stopniu Xiaomi i Oura przy wybranych metrykach.</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th>Pomiar</th>
+  <th class="whoop-col">WHOOP MG</th>
+  <th class="whoop-col">WHOOP 5.0</th>
+  <th>Fenix 8</th>
+  <th>FR 265</th>
+  <th>Ultra 3</th>
+  <th>SE 3</th>
+  <th>Galaxy W8</th>
+  <th>Polar V3</th>
+  <th>Oura 4</th>
+  <th>Vertix 2S</th>
+  <th>Xiaomi S4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Sen - czas całkowity (vs PSG)</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Fazy snu (REM, deep, light)</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>HRV nocne (vs EKG)</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell unknown">?</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Tętno spoczynkowe</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell unknown">?</span></td><td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Tętno przy HIIT/siłowni</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell unknown">?</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>VO2max</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell unknown">?</span></td><td><span class="cell unknown">?</span></td><td><span class="cell unknown">?</span></td>
+</tr>
+<tr>
+  <td>Liczenie kroków</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell unknown">?</span></td><td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Częstość oddechu</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell unknown">?</span></td><td><span class="cell unknown">?</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell unknown">?</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell unknown">?</span></td><td><span class="cell unknown">?</span></td>
+</tr>
+<tr>
+  <td>Temperatura skóry</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell na">-</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell na">-</span></td><td><span class="cell na">-</span></td>
+</tr>
+<tr>
+  <td>SpO2 (% tlenu we krwi)</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell ok">✓</span></td><td><span class="cell na">-</span></td>
+  <td><span class="cell ok">✓</span> FDA sleep apnea</td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell unknown">?</span></td><td><span class="cell unknown">?</span></td>
+</tr>
+<tr>
+  <td>EKG (FDA/CE)</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell na">-</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell na">-</span></td><td><span class="cell ok">✓</span></td><td><span class="cell na">-</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span> bez cert.</td>
+  <td><span class="cell na">-</span></td><td><span class="cell na">-</span></td><td><span class="cell na">-</span></td>
+</tr>
+<tr>
+  <td>Ciśnienie krwi</td>
+  <td class="whoop-col"><span class="cell mid">~</span> spór z FDA</td><td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell na">-</span></td><td><span class="cell na">-</span></td><td><span class="cell mid">~</span> alerty FDA/CE</td><td><span class="cell na">-</span></td>
+  <td><span class="cell mid">~</span> CE (bez FDA)</td><td><span class="cell na">-</span></td>
+  <td><span class="cell na">-</span></td><td><span class="cell na">-</span></td><td><span class="cell na">-</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<strong>Najważniejsze liczby z badań:</strong> Oura Ring 4 ma najlepsze HRV (CCC=0,99, Dial 2025) i najmniejsze błędy w czasie snu (-3 min vs PSG). WHOOP 5.0/MG z nowym algorytmem snu (2025): -1,4 min vs PSG (Schyvens 2024 systematic review - najlepszy z 3 sportowych), 69,6% deep sleep sensitivity (Schyvens 2025, lider - Apple Watch S8: 50,7%); WHOOP własne dane: +7% poprawa klasyfikacji faz vs WHOOP 4.0 i +3% poprawa wake detection. Quantified Scientist + University of Salzburg (2026, niezależne, 15 wearables, 18 osób): "Oura Ring or WHOOP (new algorithm) are your best bets" - WHOOP "nearly as well as Oura" w REM/light sleep, lekko z tyłu w awake detection. HRV nocne: WHOOP 4.0 CCC=0,94 (Dial 2025). Apple Watch lider w awake detection (Schyvens 2025, QS Salzburg 2026) i HIIT HR (3% błędu), słabszy w deep sleep. Garmin lider w VO2max (5,7-7% błędu) i krokach (82,6%). WHOOP - kroki dodane dopiero w 2024 jako funkcja drugorzędna, OK w typowym dniu (~50 kroków różnicy), niedoszacowanie ~8% na long walks (community test 50k kroków, IX 2025). Polar V3 - kroki na poziomie Apple Watcha (<1% błędu w testach Tom's Guide). Oura Ring 4 - pure walking świetne (~12 kroków różnicy/5000), ale inherent limitation smart ringów: false steps z ruchów ręką (gotowanie, prowadzenie auta, gestykulacja) zawyżają daily total. Tętno przy HIIT/siłowni - w 5.0/MG znacznie poprawione (1 cadence-lock na 19 treningów w niezależnych testach DC Rainmaker), choć jak każda opaska optyczna ma ograniczenia; oficjalny workaround: noszenie na bicepsie, gdzie dokładność dorównuje pasom piersiowym.
+</div>
+
+<div class="note">
+<strong>O dziennym HRV:</strong> Tabela skupia się na nocnym HRV bo to jedyny rodzaj walidowany peer-review (sen = jednolity stan, brak ruchu). W ciągu dnia ruch, oddech, posiłki i postawa zaburzają sygnał optyczny - dlatego nie ma wiarygodnych badań porównawczych. Funkcjonalnie jednak prawie wszystkie urządzenia oferują dzienne HRV w formie "stress score" lub continuous monitoring (WHOOP 5.0/MG: Stress Monitor 24/7, Oura 4: dzienne HRV + Resilience, Garmin: Body Battery + HRV Status, Samsung/Xiaomi: continuous stress, Apple: HRV przez Breathe). Bez peer-review, ale dostępne w aplikacjach.
+</div>
+
+<div class="note">
+<strong>Skąd pochodzą badania (EU vs US, niezależne vs sponsorowane):</strong> Dane mają mocne źródła europejskie. Kluczowe niezależne badanie porównawcze to <strong>Schyvens et al. 2025</strong> (Antwerp University Hospital + UHasselt + KU Leuven, Belgia 🇧🇪 - 62 osoby vs PSG, finansowanie VLAIO/Flanders Innovation, bez sponsorów producentów) - z niego pochodzą liczby faz snu i 69,6% deep sleep sensitivity dla WHOOP. Walidacja Apple SpO2 - <strong>Windisch 2023</strong> (Bern + Winterthur, Szwajcaria 🇨🇭, systematic review 5 publikacji/973 pacjentów). Temperatura Oura - <strong>Maijala 2019</strong> (University of Oulu, Finlandia 🇫🇮). Galaxy Watch SpO2 - <strong>Lanfranchi 2024</strong> (J Clinical Sleep Medicine, Włochy 🇮🇹). Niezależne testy YouTube prowadzi <strong>Quantified Scientist</strong> (Rob ter Horst, Holandia 🇳🇱). Po stronie USA wyróżniamy niezależne <strong>Dial et al. 2025</strong> (Ohio State + Air Force Research Lab, HRV/RHR vs Polar H10, >500 nocy) i <strong>Park 2023</strong> (JMIR, 11 trackerów). Ostrożnie traktujemy <strong>Robbins 2024</strong> (Brigham/Harvard, Oura Gen 3 najlepsze dla snu) - sponsorowane przez Oura, lead author jest doradcą naukowym firmy. W tabeli waga badań niezależnych europejskich > sponsorowanych przez producentów.
+</div>
+
+<h2>3. Funkcje specyficzne dla WHOOP (czy ktoś inny to robi?)</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th>Funkcja</th>
+  <th class="whoop-col">WHOOP MG</th>
+  <th class="whoop-col">WHOOP 5.0</th>
+  <th>Fenix 8</th>
+  <th>FR 265</th>
+  <th>Ultra 3</th>
+  <th>SE 3</th>
+  <th>Galaxy W8</th>
+  <th>Polar V3</th>
+  <th>Oura 4</th>
+  <th>Vertix 2S</th>
+  <th>Xiaomi S4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Strain (obciążenie 0-21)</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td><strong>Recovery - jeden score</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span> Energy</td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span> Readiness</td><td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Sleep Coach (kiedy spać)</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell bad">✗</span></td><td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td><strong>Dziennik (alkohol/kofeina/140+)</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell mid">~</span> tagi</td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td><strong>Raport miesięczny korelacji</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell mid">~</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td><strong>AI Coach (LLM, rozmowa)</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span> GPT-4</td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span> płatne</td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span> Gemini</td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell ok">✓</span> Advisor</td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td><strong>Wiek biologiczny / Healthspan</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span> Peak/Life</td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell mid">~</span> AGEs</td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Stres ciągły</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Cykl menstruacyjny + recovery</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td><td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell mid">~</span></td><td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Skład ciała (BIA)</td>
+  <td class="whoop-col"><span class="cell bad">✗</span></td><td class="whoop-col"><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell ok">✓</span></td><td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td><td><span class="cell bad">✗</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<strong>Kluczowe spostrzeżenie:</strong> Tylko WHOOP, Oura i Galaxy Watch 8 dają jeden ujednolicony wskaźnik gotowości dziennej. Ale tylko WHOOP łączy go z gęstym dziennikiem zachowań + miesięcznymi raportami korelacji + AI Coachem + wiekiem biologicznym jako jeden produkt. Garmin, Polar, Coros zostają na "training readiness" - bez pętli edukacyjno-coachingowej.
+</div>
+
+<h2>4. Element społeczny i dzielenie się danymi</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th>Funkcja</th>
+  <th class="whoop-col">WHOOP</th>
+  <th>Garmin</th>
+  <th>Apple</th>
+  <th>Samsung</th>
+  <th>Polar</th>
+  <th>Oura</th>
+  <th>Coros</th>
+  <th>Xiaomi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Sieć użytkowników (podgląd parametrów innych)</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span> Teams + leaderboardy</td>
+  <td><span class="cell ok">✓</span> Connections</td>
+  <td><span class="cell mid">~</span> Sharing</td>
+  <td><span class="cell mid">~</span> Together</td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell mid">~</span> Circles</td>
+  <td><span class="cell ok">✓</span> Group Tracking</td>
+  <td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Dzielenie się z trenerem/lekarzem</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Dzielenie się z rodziną</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span> LiveTrack</td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell bad">✗</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>5. Jak to się sprawdza w codziennym funkcjonowaniu</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th>Aspekt</th>
+  <th class="whoop-col">WHOOP</th>
+  <th>Fenix 8</th>
+  <th>FR 265</th>
+  <th>Ultra 3</th>
+  <th>SE 3</th>
+  <th>Galaxy W8</th>
+  <th>Polar V3</th>
+  <th>Oura 4</th>
+  <th>Vertix 2S</th>
+  <th>Xiaomi S4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Czas pracy</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span> 14d</td>
+  <td><span class="cell ok">✓</span> 16d</td>
+  <td><span class="cell ok">✓</span> 13d</td>
+  <td><span class="cell bad">✗</span> 42h</td>
+  <td><span class="cell bad">✗</span> 18h</td>
+  <td><span class="cell bad">✗</span> 30h</td>
+  <td><span class="cell mid">~</span> 12d</td>
+  <td><span class="cell ok">✓</span> 8d</td>
+  <td><span class="cell ok">✓</span> 36d</td>
+  <td><span class="cell ok">✓</span> 15d</td>
+</tr>
+<tr>
+  <td><strong>Brak wyświetlacza = brak rozproszeń</strong></td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span></td>
+  <td><span class="cell bad">✗</span></td>
+</tr>
+<tr>
+  <td>Komfort do snu</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span> 80g</td>
+  <td><span class="cell mid">~</span> 47g</td>
+  <td><span class="cell bad">✗</span> 61g</td>
+  <td><span class="cell ok">✓</span> 26g</td>
+  <td><span class="cell ok">✓</span> 8.6mm</td>
+  <td><span class="cell mid">~</span> 57g</td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span> 87g</td>
+  <td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Łatwość parowania z apką</td>
+  <td class="whoop-col"><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell mid">~</span></td>
+</tr>
+<tr>
+  <td>Działa z iOS</td>
+  <td class="whoop-col"><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell bad">✗</span> ograniczony</td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+  <td><span class="cell ok">✓</span></td>
+</tr>
+<tr>
+  <td><strong>Cichy budzik wibracyjny</strong><br><span style="color:#94a3b8;font-weight:400;font-size:11px;">budzi bez dźwięku, nie budzi partnera</span></td>
+  <td class="whoop-col"><span class="cell ok">✓</span> czas / cel snu / Recovery</td>
+  <td><span class="cell ok">✓</span> w lekkiej fazie snu</td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+  <td><span class="cell bad">✗</span> <strong>brak budzika w ogóle</strong></td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+  <td><span class="cell mid">~</span> tylko na ustawioną godzinę</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2>6. Heads Up Health - KLUCZOWA integracja</h2>
+<p>HUH to platforma, w której xKinesi agreguje dane zdrowotne pacjenta (badania, suplementy, dieta, urządzenia). Patrzymy na dwie sprawy:</p>
+<ul style="list-style:disc;margin:8px 0 16px 36px;font-size:13.5px;color:#cbd5e1;">
+  <li><strong>Integracja z HUH</strong> - bezpośrednia, pośrednia (najczęściej przez Apple Health) lub brak.</li>
+  <li><strong>Surowy export (.fit/CSV)</strong> - możliwość pobrania własnych danych w pliku, do archiwum lub innego systemu.</li>
+</ul>
+
+<div class="table-wrap table-descriptive">
+<table>
+<thead>
+<tr>
+  <th>Urządzenie</th>
+  <th>Integracja z HUH</th>
+  <th>Surowy export (.fit/CSV)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Oura Ring 4</strong></td>
+  <td><span class="cell ok">✓</span> bezpośrednia integracja (partnerstwo HUH Concierge - najgłębsze połączenie)</td>
+  <td><span class="cell ok">✓</span> CSV, JSON, oficjalne API, raport PDF dla lekarza (wymaga subskrypcji)</td>
+</tr>
+<tr>
+  <td><strong>Garmin Fenix 8 / FR 265</strong></td>
+  <td><span class="cell ok">✓</span> bezpośrednia integracja (przez Garmin Connect)</td>
+  <td><span class="cell ok">✓</span> <strong>najszerszy w zestawieniu</strong>: .FIT/.GPX/.TCX per trening + CSV + pełny ZIP całej historii konta</td>
+</tr>
+<tr>
+  <td><strong>Apple Watch Ultra 3 / SE 3</strong></td>
+  <td><span class="cell ok">✓</span> przez Apple Health (najszerszy zestaw danych - Apple Watch wrzuca tam wszystko natywnie)</td>
+  <td><span class="cell mid">~</span> tylko jeden plik XML z Apple Health (ogromny, wymaga zewnętrznego narzędzia do konwersji na CSV)</td>
+</tr>
+<tr>
+  <td class="whoop-col"><strong>WHOOP MG / 5.0</strong></td>
+  <td class="whoop-col"><span class="cell mid">~</span> pośrednio przez Apple Health (przechodzi tętno, sen, częstość oddechu, kroki, aktywność i energia - ale <strong>bez Recovery i Strain</strong>); pełne metryki będą w lipcu 2026 przez własną integrację xKinesi</td>
+  <td class="whoop-col"><span class="cell ok">✓</span> CSV (cykle, sen, treningi, dziennik) + oficjalne API. Limit 1 eksport/dzień, brak stresu i VO2max w CSV</td>
+</tr>
+<tr>
+  <td>Polar Vantage V3</td>
+  <td><span class="cell mid">~</span> pośrednio przez Apple Health</td>
+  <td><span class="cell ok">✓</span> GPX/TCX/CSV/FIT per trening + pełny eksport konta + AccessLink API</td>
+</tr>
+<tr>
+  <td>Coros Vertix 2S</td>
+  <td><span class="cell mid">~</span> pośrednio przez Apple Health</td>
+  <td><span class="cell ok">✓</span> .FIT per trening + Web API. Brak CSV z danymi snu/HRV</td>
+</tr>
+<tr>
+  <td>Samsung Galaxy Watch 8</td>
+  <td><span class="cell bad">✗</span> brak działającej ścieżki (Samsung Health to zamknięty ekosystem - dane praktycznie nie wychodzą na zewnątrz)</td>
+  <td><span class="cell bad">✗</span> CSV z Samsung Health istnieje, ale praktycznie nie do zaimportowania poza ekosystem Samsunga</td>
+</tr>
+<tr>
+  <td>Xiaomi Watch S4</td>
+  <td><span class="cell bad">✗</span> najgorszy - synchronizacja Mi Fitness z Apple Health bardzo niestabilna, częste błędy</td>
+  <td><span class="cell bad">✗</span> szczątkowy eksport w Mi Fitness, brak publicznego API</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<strong>Werdykt HUH:</strong> Oura jest królem (bezpośrednia integracja + partnerstwo HUH Concierge). Garmin i Apple są świetne - wszystko leci automatycznie. WHOOP obecnie idzie pośrednio przez Apple Health (przechodzi tętno, podstawowe dane snu, częstość oddechu, aktywność i kroki - ale <strong>bez głównych metryk Recovery i Strain</strong>). xKinesi buduje własną integrację przez zewnętrznego pośrednika (Terra/Spike API), żeby odblokować pełne dane WHOOP w HUH oraz działanie na Androidzie - planowane na lipiec 2026. Samsung i Xiaomi to zamknięte ekosystemy, danych z nich praktycznie nie wciągniesz do HUH - nie polecam, jeśli planujesz pracować z HUH.
+</div>
+
+<h3>Otwartość ekosystemu (ranking)</h3>
+<p style="background:#141414;padding:14px 18px;border-radius:8px;font-size:13.5px;">
+🟢 Najbardziej otwarte: <strong>Garmin</strong> &gt; <strong>Polar</strong> &gt; <strong>Oura</strong> &gt; <strong>Coros</strong> &gt; <strong>Apple</strong> &gt; <strong>WHOOP</strong> &gt; <strong>Samsung</strong> &gt; 🔴 <strong>Xiaomi</strong> (najbardziej zamknięte)
+</p>
+
+<h2>7. Model biznesowy WHOOP - plusy i minusy</h2>
+<div class="reason-grid">
+  <div class="reason">
+    <span class="reason-num">+</span>
+    <div class="reason-title">Nowy sprzęt za darmo</div>
+    <p>Po 12 miesiącach ciągłej subskrypcji dostajesz darmową nową generację urządzenia. Po Whoopgate (2025) WHOOP rozszerzył tę politykę.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">+</span>
+    <div class="reason-title">Stałe aktualizacje algorytmów</div>
+    <p>Algorytmy snu, Strain, Recovery są ciągle ulepszane - masz zawsze najnowsze. WHOOP Coach (GPT-4) został dodany przez aktualizację, nie nowy sprzęt.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">+</span>
+    <div class="reason-title">Dożywotnia gwarancja</div>
+    <p>W ramach subskrypcji urządzenie jest wymieniane przy uszkodzeniu - zero kosztu serwisu.</p>
+  </div>
+  <div class="reason" style="border-color:#5a2020;">
+    <span class="reason-num" style="background:#dc2626;">−</span>
+    <div class="reason-title">Cena długoterminowa</div>
+    <p>3 lata Peak = ~3 405 zł. Garmin Fenix 8 (~3 200 zł) lub Polar V3 (~1 800 zł) są tańsze, jeśli zostawiasz sprzęt na 5+ lat.</p>
+  </div>
+  <div class="reason" style="border-color:#5a2020;">
+    <span class="reason-num" style="background:#dc2626;">−</span>
+    <div class="reason-title">Działa tylko z aktywną subskrypcją</div>
+    <p>Brak trybu offline. Bez subskrypcji urządzenie staje się bezużyteczne, dane historyczne też zablokowane. Garmin/Apple/Polar działają bez subskrypcji.</p>
+  </div>
+</div>
+
+<h2>8. Dlaczego WHOOP wygrywa w longevity i jakości życia</h2>
+
+<div class="reason-grid">
+  <div class="reason">
+    <span class="reason-num">1</span>
+    <div class="reason-title">Pętla przyczynowo-skutkowa zachowanie → fizjologia</div>
+    <p>Dziennik (alkohol, kofeina, sauna, post, magnez, sen partnera, sex...) plus miesięczny raport, który liczy korelacje i mówi Ci: <em>„alkohol w 4h przed snem obniżył Twoje HRV o 18%"</em>. Silnik, który zamienia surowe dane w konkretne wnioski o Twoim ciele - i nikt poza WHOOP nie robi tego w pełni.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">2</span>
+    <div class="reason-title">WHOOP Coach - edukacja i konkretne interwencje</div>
+    <p>Inne urządzenia pokazują dane - sam musisz wiedzieć, co z nimi zrobić. Coach tłumaczy DLACZEGO i CO ZROBIĆ jutro: <em>„Twój sen REM był niższy niż zwykle - spróbuj magnezu i wyłącz ekrany 2h przed snem"</em>. Narzędzie <strong>edukacyjne</strong>, nie tylko pomiarowe.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">3</span>
+    <div class="reason-title">Trzy proste wskaźniki decyzyjne: Sleep, Strain, Recovery</div>
+    <p>Dziesiątki pomiarów zwinięte w trzy intuicyjne wskaźniki: <strong>Sleep</strong> (jak się wyspałeś), <strong>Recovery</strong> (jak organizm jest zregenerowany rano), <strong>Strain</strong> (ile obciążenia akumulujesz w ciągu dnia). Razem dają codziennie jasną odpowiedź na pytanie <em>„pchać dziś czy odpuścić?"</em>. Pełnego trio nie ma żadne inne urządzenie.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">4</span>
+    <div class="reason-title">Jakość pomiarów najważniejszych dla zdrowia podciągnięta na maks</div>
+    <p>WHOOP skupia się na parametrach, które <strong>realnie wpływają na zdrowie i długowieczność</strong> - i akurat te ma podciągnięte na maksimum: sen i fazy snu, tętno spoczynkowe, HRV nocne, częstość oddechu i temperatura skóry. Solidny fundament pod Recovery i Strain.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">5</span>
+    <div class="reason-title">Brak słabych punktów w 12 mierzonych metrykach</div>
+    <p>Konkurencja ma wyższe szczyty w pojedynczych metrykach, ale każdy ma też swoje dziury - Oura zawodzi przy intensywnym treningu, Garmin słabo mierzy sen, Apple ma luki w pomiarze oddechu. WHOOP jako jedyny mierzy wszystkie 12 kluczowych metryk co najmniej dobrze, bez ani jednej słabej pozycji. <strong>Spójny obraz całości</strong> zamiast wybiórczej doskonałości.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">6</span>
+    <div class="reason-title">Cichy budzik z 3 trybami zaprojektowanymi pod sen</div>
+    <p>3 wibracyjne tryby (nie budzą partnera): klasycznie na czas, po osiągnięciu celu snu (<em>„obudź, kiedy się wyśpię"</em>) oraz gdy Recovery wskoczy w zielony zakres (<em>„obudź, kiedy będę gotowy"</em>). Pełnej trójki nie ma żadne inne urządzenie.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">7</span>
+    <div class="reason-title">Brak wyświetlacza = minimalizm i komfort 24/7</div>
+    <p>Nie świeci, nie powiadamia, nie wciąga w odruchowe zerkanie na nadgarstek. Bateria trzyma tygodniami, więc po prostu zapominasz, że to masz - odwrotność Apple Watcha z codziennym ładowaniem. Świadome odejście od cyfrowych dystrakcji.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">8</span>
+    <div class="reason-title">Subskrypcja: zawsze aktualny sprzęt + Coach + zero kosztów serwisu</div>
+    <p>Roczna subskrypcja zawiera urządzenie, Coacha, dostęp do programów longevity oraz nowy sprzęt co 12 miesięcy w cenie. Aktualizacje algorytmów ciągłe, awaryjna wymiana w gwarancji. Żaden konkurent nie pakuje tego razem.</p>
+  </div>
+  <div class="reason">
+    <span class="reason-num">9</span>
+    <div class="reason-title">WHOOP Teams - społeczność zorientowana na zdrowie</div>
+    <p>Dzielisz dane z grupą, widzisz Recovery znajomych, masz się o kogo troszczyć - <em>„dramatyczny spadek u partnera → wszystko OK?"</em>. Społeczność wokół zdrowia, a nie samego treningu. Takiej nie ma żaden inny producent.</p>
+  </div>
+</div>
+
+<h2>9. Słabe strony - bez upiększania</h2>
+<p style="font-size:12.5px;color:#94a3b8;margin-bottom:12px;">Wymieniamy realne problemy, które dotkną użytkownika w codziennym życiu. Nie listujemy braku funkcji, które są rzadkością na rynku (np. brak EKG w opasce treningowej nie jest słabością - to standard w tej kategorii). Grupujemy też logiczne konsekwencje (np. brak ekranu = brak NFC = brak płatności).</p>
+<div class="weakness-list">
+<ul>
+  <li><strong>WHOOP MG / 5.0:</strong> brak GPS - na trening biegowy, rowerowy lub górski musisz zabrać telefon; pomiar tętna podczas intensywnych treningów (siłownia, krótkie sprinty, treningi interwałowe) słabszy niż w zegarkach sportowych - w wersji 5.0/MG poprawione, ale dla maksymalnej dokładności trzeba nosić opaskę na bicepsie zamiast nadgarstku; <strong>brak ekranu pociąga za sobą brak NFC, brak płatności zbliżeniowych i brak powiadomień z telefonu</strong>; paski z poprzedniej generacji (4.0) nie pasują do 5.0/MG - przy zmianie sprzętu trzeba kupić nowe; <strong>bez aktywnej subskrypcji urządzenie przestaje działać</strong> i tracisz dostęp do swoich historycznych danych; integracja z aplikacjami agregującymi zdrowie (np. Heads Up Health) tylko przez pośrednika, nie bezpośrednio; funkcja pomiaru ciśnienia (Blood Pressure Insights, dostępna w MG) jest aktywnie kwestionowana przez amerykański FDA - traktuj ją orientacyjnie, nie diagnostycznie.</li>
+
+  <li><strong>Garmin Fenix 8:</strong> masywny i ciężki (80 g) - niewygodny do spania na brzuchu i na boku; pomiar faz snu (REM, głęboki, lekki) słaby w porównaniu z badaniem klinicznym; Garmin powoli przechodzi w stronę modelu subskrypcyjnego (Connect+ za zaawansowane funkcje) - to, co dziś jest darmowe, jutro może być płatne; brak dziennika zachowań i analizy „co konkretnie wpłynęło na moje samopoczucie" jakie ma WHOOP - Garmin pokazuje dane, ale nie tłumaczy zależności.</li>
+
+  <li><strong>Garmin Forerunner 265:</strong> brak map offline na zegarku (są dopiero w Fenix 8) - w nieznanym terenie potrzebujesz telefonu; starszy czujnik tętna (4. generacji zamiast najnowszej 5.); brak czujnika temperatury skóry - w 2026 roku to już standard u większości konkurencji.</li>
+
+  <li><strong>Apple Ultra 3:</strong> <strong>bateria tylko 42 godziny - 5–10× mniej niż Garmin, WHOOP czy Oura</strong> - w praktyce trzeba ładować co drugi dzień, co utrudnia ciągłe noszenie do snu; działa wyłącznie z iPhonem (jeśli kiedykolwiek przesiądziesz się na Androida, zegarek staje się bezużyteczny); ciężki do spania (61 g); drogi (3 799 zł); pomiar zmienności tętna (HRV) mało dokładny w niezależnych badaniach (błąd ok. 29% w porównaniu do EKG); gorzej mierzy sen głęboki (50,7%) niż WHOOP (69,6%) czy Oura (79,5%).</li>
+
+  <li><strong>Apple Watch SE 3:</strong> <strong>bateria 18 godzin = ładowanie codziennie</strong> - w praktyce nie da się go nosić ciągle do snu; brak zaawansowanych funkcji zdrowotnych zarezerwowanych dla droższych modeli Apple (saturacja krwi SpO2, alerty nadciśnienia, dokładniejszy GPS dwuczęstotliwościowy); działa wyłącznie z iPhonem.</li>
+
+  <li><strong>Samsung Galaxy Watch 8:</strong> pomiar ciśnienia daje bardzo dużo fałszywych alarmów - u 6 na 10 zdrowych osób (bez nadciśnienia) zegarek pokazuje, że ciśnienie jest podwyższone; pomiar składu ciała (tkanka tłuszczowa, mięśniowa, woda) mocno odbiega od pomiaru klinicznego (RTG); wskaźnik antyoksydantów (Antioxidant Index) nie ma żadnej certyfikacji medycznej - to bardziej gadżet niż diagnostyka; <strong>kluczowe funkcje zdrowotne (ciśnienie, EKG, skład ciała) działają tylko z telefonem Samsung - na iPhonie nie działają w ogóle</strong>; Samsung Health to zamknięty ekosystem - dane trudno wyeksportować do innych aplikacji zdrowotnych (Apple Health, Heads Up Health i podobnych).</li>
+
+  <li><strong>Polar V3:</strong> pomiar tętna nieprecyzyjny w niezależnych testach (DC Rainmaker określił go jako „niepokojący"); bateria w realnych testach trzyma 30–40% krócej niż obiecuje producent; <strong>brak NFC i płatności zbliżeniowych</strong>; brak wbudowanego odtwarzacza muzyki - na trening musisz zabrać telefon; słabsza ogólna ocena gotowości organizmu na dzień (Recovery / Readiness) niż u Garmina, WHOOPa czy Oury - Polar pokazuje pojedyncze metryki, ale słabiej je łączy w jedną liczbę; integracja z aplikacjami agregującymi zdrowie (np. Heads Up Health) tylko przez pośrednika.</li>
+
+  <li><strong>Oura Ring 4:</strong> <strong>słabo mierzy tętno podczas ćwiczeń</strong> - pierścień fizycznie nie radzi sobie z rowerem, siłownią i intensywnymi treningami; to ograniczenie kształtu, nie do poprawienia żadną aktualizacją; pomiar wydolności tlenowej (Cardio Capacity / VO2max) nie został potwierdzony w niezależnych badaniach naukowych; brak dziennika zachowań i analizy „co wpływa na moje samopoczucie" jakie ma WHOOP; <strong>brak NFC i płatności, brak GPS, brak ekranu, a także brak jakiegokolwiek budzika - żadnego dźwięku, żadnej wibracji</strong> (pierścień jest za mały na motorek wibracyjny - to oficjalnie potwierdzone przez Oura) - wszystko to wynika z formy pierścienia i jest nie do obejścia.</li>
+
+  <li><strong>Coros Vertix 2S:</strong> <strong>najcięższy zegarek w zestawieniu (87 g)</strong> - fatalny do spania i do dokładnego pomiaru tętna na siłowni (im cięższy zegarek, tym bardziej skacze na nadgarstku); najsłabsza analiza snu spośród czterech sportowych zegarków - brak coachingu snu i brak możliwości wpisania, co robiłeś w ciągu dnia (alkohol, kofeina, sauna, posiłek), żeby zegarek skojarzył to z jakością snu; brak Spotify i wbudowanej muzyki; <strong>brak NFC i płatności zbliżeniowych</strong>; brak czujnika temperatury skóry; integracja z aplikacjami zdrowotnymi tylko przez pośrednika.</li>
+
+  <li><strong>Xiaomi Watch S4:</strong> <strong>zero niezależnych badań naukowych potwierdzających dokładność pomiarów</strong> - to kluczowa różnica wobec konkurencji; w praktyce nie wiesz, czy pomiary tętna, snu, kalorii są zbliżone do prawdy; GPS jednoczęstotliwościowy gubi sygnał wśród wieżowców i w gęstej zabudowie miejskiej; ograniczone możliwości integracji z innymi aplikacjami; <strong>synchronizacja treningów rowerowych z Stravą i Apple Health jest zepsuta</strong> (potwierdzone w I kwartale 2026, Xiaomi obiecuje naprawę, ale brak terminu); aplikacja Mi Fitness niestabilna - częste rozłączenia, problemy z synchronizacją.</li>
+</ul>
+</div>
+
+<h2>10. Werdykt</h2>
+
+<div class="verdict-box">
+<h3>Dla kogo które urządzenie</h3>
+<p style="margin-top:10px;"><strong>Sport wytrzymałościowy + GPS + pełna kontrola nad danymi:</strong> Garmin Fenix 8 - najszerszy eksport i najbardziej otwarty ekosystem w zestawieniu. Polar V3 jako tańsza alternatywa, jeśli akceptujesz mniej dokładny pomiar tętna.</p>
+<p><strong>Apple ekosystem + funkcje medyczne z certyfikacją FDA:</strong> Apple Watch Ultra 3 (EKG, wykrywanie bezdechu sennego, alerty nadciśnienia). Akceptuj 42h baterii i konieczność codziennego ładowania.</p>
+<p><strong>Smartwatch z dodatkowymi funkcjami zdrowotnymi (tylko Android):</strong> Galaxy Watch 8 - jako jedyny mierzy ciśnienie, skład ciała i wskaźnik antyoksydantów, <strong>ale wszystkie te funkcje mają zastrzeżenia co do wiarygodności</strong> w niezależnych testach. Traktuj jako orientacyjne, nie diagnostyczne.</p>
+<p style="background:rgba(255,107,53,0.15);padding:10px 14px;border-radius:6px;margin-top:14px;"><strong>Longevity + jakość życia (sen, HRV, regeneracja, korelacja zachowań):</strong> <strong>WHOOP MG / 5.0 + Oura Ring 4</strong> - to dwa najlepsze urządzenia w tej kategorii i często używa się ich równolegle. <strong>WHOOP</strong> daje silnik analityczny (Recovery, Strain, dziennik zachowań, Coach, raporty miesięczne) i filozofię „bez ekranu, ciągłe noszenie 24/7". <strong>Oura</strong> daje najdokładniejsze metryki snu i HRV w zestawieniu oraz bezpośrednią integrację z Heads Up Health. To urządzenia komplementarne, nie konkurencyjne.</p>
+</div>
+
+<p style="font-size:13px;color:#aaa;margin-top:18px;">Żadne urządzenie nie wygrywa we wszystkim. <strong>WHOOP</strong> wygrywa oprogramowaniem (Recovery/Strain + dziennik zachowań + Coach + raporty miesięczne) i filozofią designu (brak ekranu, 14+ dni baterii, komfort 24/7). <strong>Oura</strong> wygrywa precyzją snu i HRV w niezależnych badaniach oraz najgłębszą integracją z HUH. <strong>Garmin</strong> wygrywa kompletnością i otwartością danych. <strong>Apple</strong> wygrywa funkcjami medycznymi z certyfikacją FDA. Słabości WHOOP - pomiar tętna przy intensywnych treningach, brak GPS, brak ekranu, model subskrypcyjny - są realne i dla niektórych dyskwalifikujące. Dla pacjenta longevity-first najlepiej sprawdza się <strong>kombinacja WHOOP + Oura</strong>: pierwsze daje analitykę i interwencje behawioralne, drugie najdokładniejsze metryki nocne i bezpośredni kanał do HUH.</p>
+
+<footer>
+  <p>Źródła: Schyvens et al. (SLEEP Advances 2025, Antwerp/Hasselt/KU Leuven, Belgia 🇧🇪), Dial et al. (2025, Ohio State + Air Force Research Lab 🇺🇸), Windisch et al. (2023, Bern/Winterthur, Szwajcaria 🇨🇭), Maijala et al. (2019, Oulu, Finlandia 🇫🇮), Lanfranchi et al. (2024, J Clinical Sleep Medicine, Włochy 🇮🇹), Miller et al. (2020), Robbins et al. (2024, Brigham/Harvard - sponsorowane przez Oura), Park et al. (2023, JMIR), DC Rainmaker, Quantified Scientist (Rob ter Horst, Holandia 🇳🇱), oficjalne dane producentów (whoop.com, garmin.com, apple.com, samsung.com, ouraring.com, polar.com, coros.com, mi.com), Heads Up Health (headsuphealth.com), Pubmed/NIH PMC, FDA Warning Letters (lipiec 2025), Tom's Guide, The Verge, FitMade, Akademia Triathlonu.</p>
+  <p style="margin-top:10px;">Stan na maj 2026 · Ceny w PLN · Dane z badań mogą być aktualizowane wraz z nowymi publikacjami</p>
+</footer>
+
+</div>
+</body>
+</html>
